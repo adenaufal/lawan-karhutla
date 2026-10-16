@@ -100,7 +100,7 @@ Issue dan pull request terbuka. Yang paling membantu saat ini: koreksi angka den
 
 ## Tentang inisiasi ini
 
-Diinisiasi oleh [@adenaufal](https://x.com/adenaufal) dan [@bejowish](https://x.com/bejowish).
+Diinisiasi oleh [@adenaufal](https://x.com/adenaufal).
 
 ## Lisensi
 
