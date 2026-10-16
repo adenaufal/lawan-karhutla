@@ -245,6 +245,25 @@
   footer { display: grid; gap: 6px; }
   footer a { color: inherit; text-underline-offset: 2px; }
   footer a:hover { color: var(--text); }
+
+  /* Tablet and desktop: once a photo is in, preview on the left, controls on the right. */
+  @media (min-width: 768px) {
+    main.has-photo {
+      max-width: 880px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 56px;
+      row-gap: 28px;
+      align-items: center;
+      justify-items: center;
+    }
+    main.has-photo > header,
+    main.has-photo > .stats,
+    main.has-photo > footer { grid-column: 1 / -1; }
+    main.has-photo > header { max-width: 560px; }
+    main.has-photo > .stats { max-width: 560px; }
+    main.has-photo .stage { width: min(100%, 400px); }
+  }
   footer { font-size: 12px; line-height: 1.5; color: var(--muted); max-width: 340px; text-wrap: pretty; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
@@ -538,6 +557,7 @@
       zoom.value = 100; zoomOut.value = "100%";
       stage.dataset.empty = "false";
       controls.hidden = false;
+      document.querySelector("main").classList.add("has-photo");
       URL.revokeObjectURL(url);
       schedule();
     };
