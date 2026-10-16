@@ -61,10 +61,20 @@ Folder `public` juga bisa diunggah ke hosting statis lain seperti Netlify, Verce
 
 ```
 public/
-  index.html   # seluruh situs: markup, gaya, dan logika filter
+  index.html             # seluruh situs: markup, gaya, logika filter, meta SEO
+  og.jpg                 # gambar pratinjau saat link dibagikan (1200×630)
+  favicon.svg
+  apple-touch-icon.png
+  robots.txt
+  sitemap.xml
+  _headers               # cache header untuk Cloudflare Pages
+tools/
+  og-image.html          # sumber og.jpg
 ```
 
 Kalau mau mengubah warna filter, cari `HAZE_LUT` dan `FIRE_LUT` di `index.html`. Pengaturan tiap gaya (kontras, aberasi, vignette, grain) ada di objek `MODES`.
+
+Untuk membuat ulang `og.jpg`, buka `tools/og-image.html` di browser dengan viewport 1200×630, ambil screenshot, lalu simpan sebagai JPEG. Usahakan ukurannya di bawah 300 KB supaya pratinjau di WhatsApp tetap muncul.
 
 ## Sumber data
 
