@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ini bukan filter · #LawanKarhutla</title>
+<meta name="description" content="Langit Palangka Raya oranye sejak akhir Juli. Pasang warnanya di foto profilmu dan tuntut karhutla dihentikan.">
+<meta property="og:title" content="Ini bukan filter · #LawanKarhutla">
+<meta property="og:description" content="ISPU Palangka Raya tembus 1.294, batas bahayanya 300. Pasang warna langit itu di foto profilmu.">
+<meta property="og:url" content="https://lawankarhutla.pages.dev">
+<link rel="canonical" href="https://lawankarhutla.pages.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f5f5f7;
+    --border: #e5e5ea;
+    --text: #1d1d1f;
+    --muted: #6e6e73;
+    --accent: #c2200c;
+    --accent-hover: #961a0a;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    padding: 32px 20px;
+  }
+  main {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 28px;
+  }
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.01em;
+  }
+  h1 {
+    font-size: clamp(28px, 7vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-top: 8px;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 12px;
+    text-wrap: pretty;
+  }
+
+  .stage {
+    position: relative;
+    width: min(100%, 340px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--surface);
+    outline: 1px solid var(--border);
+    outline-offset: -1px;
+  }
+  .stage canvas {
+    width: 100%; height: 100%;
+    display: block;
+    touch-action: none;
+    cursor: grab;
+  }
+  .stage canvas:active { cursor: grabbing; }
+  .stage[data-empty="true"] canvas { display: none; }
+
+  .drop {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px;
+    border: 0; background: transparent;
+    font: inherit; color: var(--muted);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+  .drop:hover, .stage.dragover .drop { background: #ececf0; }
+  .drop:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; border-radius: 50%; }
+  .drop strong { color: var(--text); font-size: 15px; font-weight: 600; }
+  .drop span { font-size: 13px; }
+  .drop svg { width: 28px; height: 28px; color: var(--text); }
+  .stage[data-empty="false"] .drop { display: none; }
+
+  .controls {
+    width: 100%;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .controls[hidden] { display: none; }
+  .field { display: grid; gap: 8px; }
+  .field-head {
+    display: flex; justify-content: center; gap: 6px;
+    font-size: 13px; font-weight: 500;
+  }
+  .field-head output { color: var(--muted); font-variant-numeric: tabular-nums; }
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 24px; background: transparent; cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: var(--border); }
+  input[type="range"]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--border); }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 20px; height: 20px; margin-top: -8px;
+    border-radius: 50%; background: #fff; border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px; height: 20px; border-radius: 50%; background: #fff;
+    border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+  input[type="range"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+  .toggle {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    font-size: 13px; font-weight: 500; cursor: pointer; min-height: 32px;
+  }
+  .toggle input {
+    -webkit-appearance: none; appearance: none;
+    width: 40px; height: 24px; border-radius: 12px;
+    background: var(--border); position: relative; cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+  .toggle input::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 20px; height: 20px; border-radius: 50%; background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    transition: transform 150ms ease;
+  }
+  .toggle input:checked { background: var(--accent); }
+  .toggle input:checked::after { transform: translateX(16px); }
+  .toggle input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .segmented {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    padding: 3px; border: 0; border-radius: 12px;
+    background: var(--surface);
+  }
+  .segmented label { position: relative; cursor: pointer; }
+  .segmented input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .segmented span {
+    display: grid; place-items: center; min-height: 40px; border-radius: 9px;
+    font-size: 13px; font-weight: 500; color: var(--muted);
+    transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+  }
+  .segmented label:hover span { color: var(--text); }
+  .segmented input:checked + span {
+    background: #fff; color: var(--text); font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 0 0 0.5px rgba(0,0,0,.06);
+  }
+  .segmented input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .actions { display: flex; gap: 10px; width: 100%; }
+  .btn {
+    flex: 1; min-height: 48px; border-radius: 999px;
+    font: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer; border: 1px solid transparent;
+    transition: background-color 150ms ease, transform 100ms ease;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border); flex: 0 0 auto; padding: 0 20px; }
+  .btn-secondary:hover { background: #ececf0; }
+
+  .hint { font-size: 12px; color: var(--muted); }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    width: 100%; margin-top: -4px;
+  }
+  .stats dt {
+    font-size: 24px; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--accent); font-variant-numeric: tabular-nums;
+  }
+  .stats dd { margin-top: 4px; font-size: 12px; line-height: 1.4; color: var(--muted); text-wrap: balance; }
+
+  .btn-link {
+    align-self: center; min-height: 44px; padding: 0 12px;
+    border: 0; background: none; cursor: pointer;
+    font: inherit; font-size: 14px; font-weight: 600; color: var(--accent);
+  }
+  .btn-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .btn-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+  footer { display: grid; gap: 6px; }
+  footer a { color: inherit; text-underline-offset: 2px; }
+  footer a:hover { color: var(--text); }
+  footer { font-size: 12px; line-height: 1.5; color: var(--muted); max-width: 340px; text-wrap: pretty; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">#LawanKarhutla</p>
+    <h1>Ini bukan filter.<br>Ini langit Palangka Raya.</h1>
+    <p class="lede">Warganya sudah menghirup asap ini sejak akhir Juli. Asapnya juga sampai ke Malaysia, Singapura, dan Timor‑Leste. Kita yang jauh cukup pasang warnanya di foto profil, dan jangan berhenti di situ.</p>
+  </header>
+
+  <dl class="stats">
+    <div><dt>1.294</dt><dd>ISPU Palangka Raya. Bahaya mulai di 300.</dd></div>
+    <div><dt>62.400</dt><dd>balita kena ISPA per 11&nbsp;Oktober.</dd></div>
+    <div><dt>95</dt><dd>perusahaan diselidiki. Tersangka belum diumumkan.</dd></div>
+  </dl>
+
+  <div class="stage" id="stage" data-empty="true">
+    <canvas id="preview" width="720" height="720" aria-label="Pratinjau foto profil. Geser untuk mengatur posisi."></canvas>
+    <button class="drop" id="pick" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      <strong>Pilih foto</strong>
+      <span>atau tarik dan lepas di sini</span>
+    </button>
+    <input type="file" id="file" accept="image/*" class="sr-only" tabindex="-1">
+  </div>
+
+  <section class="controls" id="controls" hidden aria-label="Pengaturan">
+    <p class="hint">Geser foto untuk mengatur posisinya</p>
+    <fieldset class="segmented" id="mode">
+      <legend class="sr-only">Gaya filter</legend>
+      <label><input type="radio" name="mode" value="asap" checked><span>Asap</span></label>
+      <label><input type="radio" name="mode" value="duotone"><span>Duotone</span></label>
+      <label><input type="radio" name="mode" value="aberasi"><span>Aberasi</span></label>
+      <label><input type="radio" name="mode" value="campuran"><span>Campuran</span></label>
+    </fieldset>
+    <div class="field">
+      <div class="field-head"><label for="zoom">Perbesar</label><output id="zoomOut" for="zoom">100%</output></div>
+      <input type="range" id="zoom" min="100" max="300" value="100">
+    </div>
+    <div class="field">
+      <div class="field-head"><label for="strength">Kekuatan filter</label><output id="strengthOut" for="strength">100%</output></div>
+      <input type="range" id="strength" min="0" max="100" value="100">
+    </div>
+    <label class="toggle">Tampilkan pesan kampanye<input type="checkbox" id="badge" checked></label>
+    <div class="actions">
+      <button class="btn btn-secondary" id="change" type="button">Ganti</button>
+      <button class="btn btn-primary" id="download" type="button">Unduh foto</button>
+    </div>
+    <button class="btn-link" id="copyCaption" type="button">Salin caption untuk postinganmu</button>
+  </section>
+
+  <footer>
+    <p>Diinisiasi oleh <a href="https://x.com/adenaufal">@adenaufal</a> dan <a href="https://x.com/bejowish">@bejowish</a>. Kode situs ini terbuka di <a href="https://github.com/adenaufal/lawan-karhutla">GitHub</a>.</p>
+    <p>Fotomu diproses di perangkatmu dan tidak diunggah ke mana pun.</p>
+    <p>Sumber angka: <a href="https://kalteng.antaranews.com/berita/845510/kabut-asap-dampak-karhutla-masih-menyelimuti-palangka-raya">ANTARA</a>, <a href="https://health.detik.com/berita-detikhealth/d-8709190/62-ribu-balita-alami-ispa-di-wilayah-terdampak-karhutla">detikHealth</a>, <a href="https://en.wikipedia.org/wiki/2026_Southeast_Asian_haze">Wikipedia</a>. Data per pertengahan Oktober 2026.</p>
+  </footer>
+</main>
+
+<script>
+(() => {
+  const stage = document.getElementById("stage");
+  const preview = document.getElementById("preview");
+  const pctx = preview.getContext("2d", { willReadFrequently: true });
+  const fileInput = document.getElementById("file");
+  const controls = document.getElementById("controls");
+  const zoom = document.getElementById("zoom");
+  const strength = document.getElementById("strength");
+  const badge = document.getElementById("badge");
+  const modeInput = () => document.querySelector('input[name="mode"]:checked');
+
+  const EXPORT_SIZE = 1080;
+  const state = { img: null, scale: 1, x: 0, y: 0, name: "foto" };
+
+  // Smoke haze, matched to footage from Palangka Raya: no true blacks, everything drowned in orange.
+  const HAZE_LUT = buildLut([
+    [0.00, [128, 54, 6]],
+    [0.45, [234, 124, 18]],
+    [0.75, [250, 168, 36]],
+    [1.00, [255, 218, 112]],
+  ]);
+  // Fire duotone: shadows → near-black ember, mids → blood red / flame orange, highlights → hot yellow.
+  const FIRE_LUT = buildLut([
+    [0.00, [14, 2, 4]],
+    [0.30, [110, 8, 10]],
+    [0.58, [232, 62, 18]],
+    [0.82, [255, 150, 40]],
+    [1.00, [255, 236, 170]],
+  ]);
+
+  // keep: how much original color survives the toning. aberration: max channel shift as a fraction of size.
+  const MODES = {
+    asap:     { lut: HAZE_LUT, contrast: "flat", keep: 0.1,  aberration: 0,     vignette: 0.15, grain: 14 },
+    duotone:  { lut: FIRE_LUT, contrast: "hard", keep: 0,    aberration: 0,     vignette: 0.45, grain: 22 },
+    aberasi:  { lut: HAZE_LUT, contrast: "flat", keep: 0.1,  aberration: 0.024, vignette: 0.25, grain: 18 },
+    campuran: { lut: FIRE_LUT, contrast: "hard", keep: 0,    aberration: 0.012, vignette: 0.55, grain: 34 },
+  };
+
+  function buildLut(stops) {
+    const lut = new Uint8ClampedArray(256 * 3);
+    for (let i = 0; i < 256; i++) {
+      const t = i / 255;
+      let k = 0;
+      while (k < stops.length - 2 && t > stops[k + 1][0]) k++;
+      const [t0, c0] = stops[k], [t1, c1] = stops[k + 1];
+      const f = (t - t0) / (t1 - t0);
+      for (let c = 0; c < 3; c++) lut[i * 3 + c] = c0[c] + (c1[c] - c0[c]) * f;
+    }
+    return lut;
+  }
+
+  function applyFilter(ctx, size, amount, mode) {
+    if (amount <= 0) return;
+    const { lut, contrast, keep, aberration, vignette, grain } = mode;
+    const data = ctx.getImageData(0, 0, size, size);
+    const px = data.data;
+    const src = new Uint8ClampedArray(px);
+    const half = size / 2;
+    const n = size * size;
+
+    // Pass 1: reshape contrast, then map luminance through the palette.
+    const tone = new Uint8ClampedArray(n * 3);
+    for (let p = 0; p < n; p++) {
+      const i = p * 4;
+      let l = (0.299 * src[i] + 0.587 * src[i + 1] + 0.114 * src[i + 2]) / 255;
+      if (contrast === "hard") {
+        l = l * l * (3 - 2 * l);
+        l = l * l * (3 - 2 * l) * 0.5 + l * 0.5;
+      } else {
+        l = 0.12 + l * 0.8;
+      }
+      const li = (l * 255) | 0;
+      for (let c = 0; c < 3; c++) tone[p * 3 + c] = lut[li * 3 + c] * (1 - keep) + src[i + c] * keep;
+    }
+
+    // Pass 2: radial chromatic aberration (red pushed out, blue pulled in), vignette, grain.
+    const shift = size * aberration * amount;
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        const p = y * size + x, i = p * 4;
+        const dx = (x - half) / half, dy = (y - half) / half;
+        const d2 = dx * dx + dy * dy;
+        let nr, ng = tone[p * 3 + 1], nb;
+        if (shift) {
+          const ox = dx * d2 * shift, oy = dy * d2 * shift;
+          const rx = Math.min(size - 1, Math.max(0, (x - ox) | 0));
+          const ry = Math.min(size - 1, Math.max(0, (y - oy) | 0));
+          const bx = Math.min(size - 1, Math.max(0, (x + ox) | 0));
+          const by = Math.min(size - 1, Math.max(0, (y + oy) | 0));
+          nr = tone[(ry * size + rx) * 3];
+          nb = tone[(by * size + bx) * 3 + 2];
+        } else {
+          nr = tone[p * 3];
+          nb = tone[p * 3 + 2];
+        }
+        const v = 1 - Math.min(1, d2) * vignette;
+        const g = (Math.random() - 0.5) * grain;
+        nr = nr * v + g; ng = ng * v + g; nb = nb * v + g;
+        px[i]     = src[i]     + (nr - src[i])     * amount;
+        px[i + 1] = src[i + 1] + (ng - src[i + 1]) * amount;
+        px[i + 2] = src[i + 2] + (nb - src[i + 2]) * amount;
+      }
+    }
+    ctx.putImageData(data, 0, 0);
+  }
+
+  // Text with a red/yellow channel split so the slogan echoes the aberration in the photo.
+  function splitText(ctx, text, x, y, offset) {
+    ctx.globalCompositeOperation = "screen";
+    ctx.fillStyle = "#ff2a12";
+    ctx.fillText(text, x - offset, y);
+    ctx.fillStyle = "#ffc23a";
+    ctx.fillText(text, x + offset, y);
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(text, x, y);
+  }
+
+  function drawBadge(ctx, size) {
+    const s = size / 1080;
+    const cx = size / 2;
+
+    // Smoke band rising from the bottom so the slogan always reads.
+    const band = ctx.createLinearGradient(0, size * 0.5, 0, size);
+    band.addColorStop(0, "rgba(10,0,0,0)");
+    band.addColorStop(0.55, "rgba(10,0,0,0.6)");
+    band.addColorStop(1, "rgba(10,0,0,0.92)");
+    ctx.fillStyle = band;
+    ctx.fillRect(0, size * 0.5, size, size * 0.5);
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+
+    // Kept inside the circle crop most platforms apply to profile photos.
+    ctx.font = `700 ${34 * s}px Inter, system-ui, sans-serif`;
+    ctx.letterSpacing = `${8 * s}px`;
+    ctx.fillStyle = "#ffb347";
+    ctx.fillText("INI BUKAN FILTER", cx, 705 * s);
+
+    ctx.font = `900 ${124 * s}px Inter, system-ui, sans-serif`;
+    ctx.letterSpacing = `${-3 * s}px`;
+    splitText(ctx, "LAWAN", cx, 815 * s, 9 * s);
+    splitText(ctx, "KARHUTLA", cx, 925 * s, 9 * s);
+
+    ctx.font = `600 ${28 * s}px Inter, system-ui, sans-serif`;
+    ctx.letterSpacing = `${2 * s}px`;
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    ctx.fillText("#LawanKarhutla", cx, 985 * s);
+    ctx.letterSpacing = "0px";
+  }
+
+  function coverScale(img) {
+    return Math.max(1 / img.width, 1 / img.height);
+  }
+
+  function clampOffset() {
+    const { img, scale } = state;
+    const s = coverScale(img) * scale;
+    const maxX = Math.max(0, (img.width * s - 1) / 2);
+    const maxY = Math.max(0, (img.height * s - 1) / 2);
+    state.x = Math.max(-maxX, Math.min(maxX, state.x));
+    state.y = Math.max(-maxY, Math.min(maxY, state.y));
+  }
+
+  // Positions are in unit space (canvas = 1×1) so preview and export match exactly.
+  function render(ctx, size) {
+    const { img, scale, x, y } = state;
+    const s = coverScale(img) * scale * size;
+    const w = img.width * s, h = img.height * s;
+    ctx.clearRect(0, 0, size, size);
+    ctx.drawImage(img, (size - w) / 2 + x * size, (size - h) / 2 + y * size, w, h);
+    applyFilter(ctx, size, strength.value / 100, MODES[modeInput().value]);
+    if (badge.checked) drawBadge(ctx, size);
+  }
+
+  // Canvas text doesn't trigger webfont loading, so fetch the weights up front and redraw once ready.
+  Promise.all(["900 1em Inter", "600 1em Inter"].map(f => document.fonts.load(f))).then(() => schedule());
+
+  let frame = 0;
+  function schedule() {
+    if (!state.img || frame) return;
+    frame = requestAnimationFrame(() => { frame = 0; render(pctx, preview.width); });
+  }
+
+  function load(file) {
+    if (!file || !file.type.startsWith("image/")) return;
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      state.img = img;
+      state.scale = 1; state.x = 0; state.y = 0;
+      state.name = file.name.replace(/\.[^.]+$/, "") || "foto";
+      zoom.value = 100; zoomOut.value = "100%";
+      stage.dataset.empty = "false";
+      controls.hidden = false;
+      URL.revokeObjectURL(url);
+      schedule();
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      alert("Foto ini tidak bisa dibuka. Coba pakai file JPG atau PNG.");
+    };
+    img.src = url;
+  }
+
+  document.getElementById("pick").addEventListener("click", () => fileInput.click());
+  document.getElementById("change").addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", () => { load(fileInput.files[0]); fileInput.value = ""; });
+
+  ["dragenter", "dragover"].forEach(t => stage.addEventListener(t, e => { e.preventDefault(); stage.classList.add("dragover"); }));
+  ["dragleave", "drop"].forEach(t => stage.addEventListener(t, e => { e.preventDefault(); stage.classList.remove("dragover"); }));
+  stage.addEventListener("drop", e => load(e.dataTransfer.files[0]));
+
+  const zoomOut = document.getElementById("zoomOut");
+  const strengthOut = document.getElementById("strengthOut");
+  zoom.addEventListener("input", () => {
+    state.scale = zoom.value / 100;
+    zoomOut.value = zoom.value + "%";
+    clampOffset(); schedule();
+  });
+  strength.addEventListener("input", () => { strengthOut.value = strength.value + "%"; schedule(); });
+  badge.addEventListener("change", schedule);
+  document.getElementById("mode").addEventListener("change", schedule);
+
+  let drag = null;
+  preview.addEventListener("pointerdown", e => {
+    preview.setPointerCapture(e.pointerId);
+    drag = { px: e.clientX, py: e.clientY, x: state.x, y: state.y };
+  });
+  preview.addEventListener("pointermove", e => {
+    if (!drag) return;
+    const rect = preview.getBoundingClientRect();
+    state.x = drag.x + (e.clientX - drag.px) / rect.width;
+    state.y = drag.y + (e.clientY - drag.py) / rect.height;
+    clampOffset(); schedule();
+  });
+  const end = () => { drag = null; };
+  preview.addEventListener("pointerup", end);
+  preview.addEventListener("pointercancel", end);
+
+  const CAPTION = [
+    "Ini bukan filter. Langit Palangka Raya memang oranye, dan warganya menghirup asap ini sejak akhir Juli.",
+    "ISPU di sana sempat tembus 1.294. Batas berbahayanya 300. Per 11 Oktober, 62.400 balita di daerah terdampak kena ISPA.",
+    "Tiap tahun kita ganti foto profil, lalu lupa sampai musim asap berikutnya. Tahun ini jangan. Kawal 95 perusahaan yang sedang diselidiki sampai ada yang diadili.",
+    "#LawanKarhutla",
+  ].join("\n\n");
+  const copyBtn = document.getElementById("copyCaption");
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(CAPTION);
+      copyBtn.textContent = "Caption tersalin";
+    } catch {
+      copyBtn.textContent = "Gagal menyalin. Izinkan akses clipboard lalu coba lagi.";
+    }
+    setTimeout(() => { copyBtn.textContent = "Salin caption untuk postinganmu"; }, 2400);
+  });
+
+  document.getElementById("download").addEventListener("click", () => {
+    const out = document.createElement("canvas");
+    out.width = out.height = EXPORT_SIZE;
+    render(out.getContext("2d", { willReadFrequently: true }), EXPORT_SIZE);
+    out.toBlob(blob => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `${state.name}-lawan-karhutla.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }, "image/png");
+  });
+})();
+</script>
+</body>
+</html>
