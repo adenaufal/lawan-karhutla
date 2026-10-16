@@ -70,11 +70,20 @@ public/
   _headers               # cache header untuk Cloudflare Pages
 tools/
   og-image.html          # sumber og.jpg
+  haze.py                # versi Python filter "Aberasi", dipakai untuk latar og.jpg
+  assets/                # foto asli dan latar yang sudah difilter
 ```
 
 Kalau mau mengubah warna filter, cari `HAZE_LUT` dan `FIRE_LUT` di `index.html`. Pengaturan tiap gaya (kontras, aberasi, vignette, grain) ada di objek `MODES`.
 
-Untuk membuat ulang `og.jpg`, buka `tools/og-image.html` di browser dengan viewport 1200×630, ambil screenshot, lalu simpan sebagai JPEG. Usahakan ukurannya di bawah 300 KB supaya pratinjau di WhatsApp tetap muncul.
+Latar `og.jpg` adalah foto udara sungai di Palangka Raya karya [alea Film](https://unsplash.com/photos/UGAGO3YJ4Kk) di Unsplash (Unsplash License), lalu diberi filter "Aberasi" lewat `tools/haze.py`. Untuk membuat ulang:
+
+```bash
+pip install numpy pillow
+python tools/haze.py tools/assets/palangkaraya-river.jpg tools/assets/og-bg.jpg 1200 630 0.62
+```
+
+Setelah itu buka `tools/og-image.html` di browser dengan viewport 1200×630, ambil screenshot, lalu simpan sebagai JPEG. Usahakan ukurannya di bawah 300 KB supaya pratinjau di WhatsApp tetap muncul.
 
 ## Sumber data
 
