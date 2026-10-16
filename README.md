@@ -20,7 +20,17 @@ Ganti foto profil saja tidak memadamkan api. Kami membuat situs ini supaya orang
 4. Klik "Unduh foto". Hasilnya PNG 1080×1080.
 5. Klik "Salin caption untuk postinganmu" kalau mau sekalian posting.
 
-Pesan kampanye di foto ("INI BUKAN FILTER", "LAWAN KARHUTLA", #LawanKarhutla) bisa dimatikan. Posisinya sudah diatur agar tidak terpotong saat platform memotong foto profil jadi lingkaran.
+Ada lima pesan kampanye yang bisa dipasang di foto, atau pilih "Tanpa teks" kalau mau fotonya saja:
+
+| Pilihan | Baris kecil | Tulisan besar |
+|---|---|---|
+| Lawan Karhutla | INI BUKAN FILTER | LAWAN KARHUTLA |
+| Mau bernapas | 62.400 BALITA KENA ISPA | KAMI MAU BERNAPAS |
+| ISPU 1.294 | BATAS BAHAYANYA 300 | ISPU 1.294 |
+| Adili pembakar | 95 PERUSAHAAN SEDANG DISELIDIKI | ADILI PEMBAKAR |
+| Jangan lupa | TIAP TAHUN BEGINI | JANGAN LUPA LAGI |
+
+Semua pesan ditutup #LawanKarhutla. Ukuran hurufnya menyesuaikan lebar lingkaran, jadi tulisan tidak terpotong saat platform memotong foto profil jadi bulat. Teks pesan ada di objek `MESSAGES` di `index.html`.
 
 ## Gaya filter
 

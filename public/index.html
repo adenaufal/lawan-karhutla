@@ -176,25 +176,19 @@
   }
   input[type="range"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
-  .toggle {
-    display: flex; align-items: center; justify-content: center; gap: 12px;
-    font-size: 13px; font-weight: 500; cursor: pointer; min-height: 32px;
+  .chips { border: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .chips legend { width: 100%; margin-bottom: 10px; font-size: 13px; font-weight: 500; text-align: center; }
+  .chips label { position: relative; cursor: pointer; }
+  .chips input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .chips span {
+    display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px;
+    border-radius: 999px; border: 1px solid var(--border);
+    font-size: 13px; font-weight: 500; color: var(--muted);
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
   }
-  .toggle input {
-    -webkit-appearance: none; appearance: none;
-    width: 40px; height: 24px; border-radius: 12px;
-    background: var(--border); position: relative; cursor: pointer;
-    transition: background-color 150ms ease;
-  }
-  .toggle input::after {
-    content: ""; position: absolute; top: 2px; left: 2px;
-    width: 20px; height: 20px; border-radius: 50%; background: #fff;
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
-    transition: transform 150ms ease;
-  }
-  .toggle input:checked { background: var(--accent); }
-  .toggle input:checked::after { transform: translateX(16px); }
-  .toggle input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chips label:hover span { color: var(--text); border-color: #d2d2d7; }
+  .chips input:checked + span { background: var(--text); border-color: var(--text); color: #fff; font-weight: 600; }
+  .chips input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   .segmented {
     display: grid; grid-template-columns: repeat(4, 1fr);
@@ -296,7 +290,15 @@
       <div class="field-head"><label for="strength">Kekuatan filter</label><output id="strengthOut" for="strength">100%</output></div>
       <input type="range" id="strength" min="0" max="100" value="100">
     </div>
-    <label class="toggle">Tampilkan pesan kampanye<input type="checkbox" id="badge" checked></label>
+    <fieldset class="chips" id="message">
+      <legend>Pesan kampanye</legend>
+      <label><input type="radio" name="message" value="lawan" checked><span>Lawan Karhutla</span></label>
+      <label><input type="radio" name="message" value="napas"><span>Mau bernapas</span></label>
+      <label><input type="radio" name="message" value="ispu"><span>ISPU 1.294</span></label>
+      <label><input type="radio" name="message" value="adili"><span>Adili pembakar</span></label>
+      <label><input type="radio" name="message" value="lupa"><span>Jangan lupa</span></label>
+      <label><input type="radio" name="message" value="none"><span>Tanpa teks</span></label>
+    </fieldset>
     <div class="actions">
       <button class="btn btn-secondary" id="change" type="button">Ganti</button>
       <button class="btn btn-primary" id="download" type="button">Unduh foto</button>
@@ -321,7 +323,7 @@
   const controls = document.getElementById("controls");
   const zoom = document.getElementById("zoom");
   const strength = document.getElementById("strength");
-  const badge = document.getElementById("badge");
+  const messageInput = () => document.querySelector('input[name="message"]:checked');
   const modeInput = () => document.querySelector('input[name="mode"]:checked');
 
   const EXPORT_SIZE = 1080;
@@ -431,7 +433,31 @@
     ctx.fillText(text, x, y);
   }
 
-  function drawBadge(ctx, size) {
+  // Each variant: small kicker line, two headline lines, hashtag. Facts match the stats on the page.
+  const MESSAGES = {
+    lawan: { kicker: "INI BUKAN FILTER",               lines: ["LAWAN", "KARHUTLA"] },
+    napas: { kicker: "62.400 BALITA KENA ISPA",        lines: ["KAMI MAU", "BERNAPAS"] },
+    ispu:  { kicker: "BATAS BAHAYANYA 300",            lines: ["ISPU", "1.294"] },
+    adili: { kicker: "95 PERUSAHAAN SEDANG DISELIDIKI", lines: ["ADILI", "PEMBAKAR"] },
+    lupa:  { kicker: "TIAP TAHUN BEGINI",              lines: ["JANGAN", "LUPA LAGI"] },
+  };
+
+  // Width of the circular crop at a given baseline, so text survives round avatars.
+  function chordAt(size, y, margin) {
+    const dy = y / size - 0.5;
+    return 2 * Math.sqrt(Math.max(0, 0.25 - dy * dy)) * size * margin;
+  }
+
+  function fitFont(ctx, text, weight, max, maxWidth, s) {
+    let px = max;
+    ctx.font = `${weight} ${px * s}px Inter, system-ui, sans-serif`;
+    while (px > 40 && ctx.measureText(text).width > maxWidth) {
+      px -= 4;
+      ctx.font = `${weight} ${px * s}px Inter, system-ui, sans-serif`;
+    }
+  }
+
+  function drawBadge(ctx, size, msg) {
     const s = size / 1080;
     const cx = size / 2;
 
@@ -446,16 +472,18 @@
     ctx.textAlign = "center";
     ctx.textBaseline = "alphabetic";
 
-    // Kept inside the circle crop most platforms apply to profile photos.
-    ctx.font = `700 ${34 * s}px Inter, system-ui, sans-serif`;
-    ctx.letterSpacing = `${8 * s}px`;
+    ctx.letterSpacing = `${7 * s}px`;
+    fitFont(ctx, msg.kicker, 700, 34, chordAt(size, 705 * s, 0.82), s);
     ctx.fillStyle = "#ffb347";
-    ctx.fillText("INI BUKAN FILTER", cx, 705 * s);
+    ctx.fillText(msg.kicker, cx, 705 * s);
 
-    ctx.font = `900 ${124 * s}px Inter, system-ui, sans-serif`;
     ctx.letterSpacing = `${-3 * s}px`;
-    splitText(ctx, "LAWAN", cx, 815 * s, 9 * s);
-    splitText(ctx, "KARHUTLA", cx, 925 * s, 9 * s);
+    const baselines = [815, 925];
+    msg.lines.forEach((line, i) => {
+      const y = baselines[i] * s;
+      fitFont(ctx, line, 900, 124, chordAt(size, y, 0.94), s);
+      splitText(ctx, line, cx, y, 9 * s);
+    });
 
     ctx.font = `600 ${28 * s}px Inter, system-ui, sans-serif`;
     ctx.letterSpacing = `${2 * s}px`;
@@ -463,6 +491,7 @@
     ctx.fillText("#LawanKarhutla", cx, 985 * s);
     ctx.letterSpacing = "0px";
   }
+
 
   function coverScale(img) {
     return Math.max(1 / img.width, 1 / img.height);
@@ -485,7 +514,8 @@
     ctx.clearRect(0, 0, size, size);
     ctx.drawImage(img, (size - w) / 2 + x * size, (size - h) / 2 + y * size, w, h);
     applyFilter(ctx, size, strength.value / 100, MODES[modeInput().value]);
-    if (badge.checked) drawBadge(ctx, size);
+    const msg = MESSAGES[messageInput().value];
+    if (msg) drawBadge(ctx, size, msg);
   }
 
   // Canvas text doesn't trigger webfont loading, so fetch the weights up front and redraw once ready.
@@ -534,7 +564,7 @@
     clampOffset(); schedule();
   });
   strength.addEventListener("input", () => { strengthOut.value = strength.value + "%"; schedule(); });
-  badge.addEventListener("change", schedule);
+  document.getElementById("message").addEventListener("change", schedule);
   document.getElementById("mode").addEventListener("change", schedule);
 
   let drag = null;
