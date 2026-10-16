@@ -18,21 +18,21 @@
 <meta property="og:locale" content="id_ID">
 <meta property="og:url" content="https://lawankarhutla.pages.dev/">
 <meta property="og:title" content="Ini bukan filter. Ini langit Palangka Raya.">
-<meta property="og:description" content="ISPU Palangka Raya tembus 1.294, padahal bahaya mulai di 300. Pasang warna langit itu di foto profilmu. #LawanKarhutla">
+<meta property="og:description" content="ISPU Palangka Raya sempat tembus 1.294, padahal bahaya mulai di 300. Pasang warna langit itu di foto profilmu. #LawanKarhutla">
 <meta property="og:image" content="https://lawankarhutla.pages.dev/og.jpg">
 <meta property="og:image:secure_url" content="https://lawankarhutla.pages.dev/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Foto udara sungai di Palangka Raya yang tertutup kabut oranye, dengan tulisan besar: Ini bukan filter. Ini langit Palangka Raya. ISPU 1.294.">
+<meta property="og:image:alt" content="Foto udara sungai di Palangka Raya yang tertutup kabut oranye, dengan tulisan besar: Ini bukan filter. Ini langit Palangka Raya. ISPU sempat tembus 1.294.">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@adenaufal">
 <meta name="twitter:creator" content="@adenaufal">
 <meta name="twitter:title" content="Ini bukan filter. Ini langit Palangka Raya.">
-<meta name="twitter:description" content="ISPU Palangka Raya tembus 1.294, padahal bahaya mulai di 300. Pasang warna langit itu di foto profilmu. #LawanKarhutla">
+<meta name="twitter:description" content="ISPU Palangka Raya sempat tembus 1.294, padahal bahaya mulai di 300. Pasang warna langit itu di foto profilmu. #LawanKarhutla">
 <meta name="twitter:image" content="https://lawankarhutla.pages.dev/og.jpg">
-<meta name="twitter:image:alt" content="Foto udara sungai di Palangka Raya yang tertutup kabut oranye, dengan tulisan besar: Ini bukan filter. Ini langit Palangka Raya. ISPU 1.294.">
+<meta name="twitter:image:alt" content="Foto udara sungai di Palangka Raya yang tertutup kabut oranye, dengan tulisan besar: Ini bukan filter. Ini langit Palangka Raya. ISPU sempat tembus 1.294.">
 
 <script type="application/ld+json">
 {
@@ -277,9 +277,9 @@
   </header>
 
   <dl class="stats">
-    <div><dt>1.294</dt><dd>ISPU Palangka Raya. Bahaya mulai di 300.</dd></div>
-    <div><dt>62.400</dt><dd>balita kena ISPA per 11&nbsp;Oktober.</dd></div>
-    <div><dt>95</dt><dd>perusahaan diselidiki. Tersangka belum diumumkan.</dd></div>
+    <div><dt data-bind="ispuPeak">1.294</dt><dd>ISPU Palangka Raya sempat tembus angka ini. Bahaya mulai di <span data-bind="ispuDanger">300</span>.</dd></div>
+    <div><dt data-bind="balitaAtLeast">62.000+</dt><dd>balita kena ISPA per <span data-bind="balitaAsOf">11&nbsp;Oktober</span>.</dd></div>
+    <div><dt data-bind="perusahaanAtLeast">90+</dt><dd>perusahaan diselidiki. Tersangka belum diumumkan.</dd></div>
   </dl>
 
   <div class="stage" id="stage" data-empty="true">
@@ -313,7 +313,7 @@
       <legend>Pesan kampanye</legend>
       <label><input type="radio" name="message" value="lawan" checked><span>Lawan Karhutla</span></label>
       <label><input type="radio" name="message" value="napas"><span>Mau bernapas</span></label>
-      <label><input type="radio" name="message" value="ispu"><span>ISPU 1.294</span></label>
+      <label><input type="radio" name="message" value="ispu"><span data-bind="ispuChip">ISPU 1.294</span></label>
       <label><input type="radio" name="message" value="adili"><span>Adili pembakar</span></label>
       <label><input type="radio" name="message" value="lupa"><span>Jangan lupa</span></label>
       <label><input type="radio" name="message" value="none"><span>Tanpa teks</span></label>
@@ -328,7 +328,7 @@
   <footer>
     <p>Diinisiasi oleh <a href="https://x.com/adenaufal">@adenaufal</a>. Kode situs ini terbuka di <a href="https://github.com/adenaufal/lawan-karhutla">GitHub</a>.</p>
     <p>Fotomu diproses di perangkatmu dan tidak diunggah ke mana pun.</p>
-    <p>Sumber angka: <a href="https://kalteng.antaranews.com/berita/845510/kabut-asap-dampak-karhutla-masih-menyelimuti-palangka-raya">ANTARA</a>, <a href="https://health.detik.com/berita-detikhealth/d-8709190/62-ribu-balita-alami-ispa-di-wilayah-terdampak-karhutla">detikHealth</a>, <a href="https://en.wikipedia.org/wiki/2026_Southeast_Asian_haze">Wikipedia</a>. Data per pertengahan Oktober 2026.</p>
+    <p>Sumber angka: <a href="https://kalteng.antaranews.com/berita/845510/kabut-asap-dampak-karhutla-masih-menyelimuti-palangka-raya">ANTARA</a>, <a href="https://health.detik.com/berita-detikhealth/d-8709190/62-ribu-balita-alami-ispa-di-wilayah-terdampak-karhutla">detikHealth</a>, <a href="https://en.wikipedia.org/wiki/2026_Southeast_Asian_haze">Wikipedia</a>. Data per <span data-bind="updatedLabel">pertengahan Oktober 2026</span>.</p>
     <p>Foto di pratinjau tautan: <a href="https://unsplash.com/photos/UGAGO3YJ4Kk">alea Film</a> di Unsplash.</p>
   </footer>
 </main>
@@ -452,14 +452,59 @@
     ctx.fillText(text, x, y);
   }
 
-  // Each variant: small kicker line, two headline lines, hashtag. Facts match the stats on the page.
-  const MESSAGES = {
-    lawan: { kicker: "INI BUKAN FILTER",               lines: ["LAWAN", "KARHUTLA"] },
-    napas: { kicker: "62.400 BALITA KENA ISPA",        lines: ["KAMI MAU", "BERNAPAS"] },
-    ispu:  { kicker: "BATAS BAHAYANYA 300",            lines: ["ISPU", "1.294"] },
-    adili: { kicker: "95 PERUSAHAAN SEDANG DISELIDIKI", lines: ["ADILI", "PEMBAKAR"] },
-    lupa:  { kicker: "TIAP TAHUN BEGINI",              lines: ["JANGAN", "LUPA LAGI"] },
+  // Figures live in data.json so the page, the photo text, and the caption stay in sync.
+  // Wording only claims a past peak ("sempat") or a floor ("lebih dari"), so it stays true as numbers grow.
+  let DATA = {
+    updatedLabel: "pertengahan Oktober 2026",
+    ispu: { peak: 1294, danger: 300 },
+    balitaIspa: { atLeast: 62000, asOf: "11 Oktober" },
+    perusahaan: { atLeast: 90 },
   };
+  const fmt = n => new Intl.NumberFormat("id-ID").format(n);
+
+  // Each variant: small kicker line, two headline lines, hashtag.
+  function messages() {
+    const d = DATA;
+    return {
+      lawan: { kicker: "INI BUKAN FILTER", lines: ["LAWAN", "KARHUTLA"] },
+      napas: { kicker: `LEBIH DARI ${fmt(d.balitaIspa.atLeast)} BALITA KENA ISPA`, lines: ["KAMI MAU", "BERNAPAS"] },
+      ispu:  { kicker: `BAHAYA MULAI DI ${fmt(d.ispu.danger)}`, lines: ["ISPU SEMPAT", fmt(d.ispu.peak)] },
+      adili: { kicker: `LEBIH DARI ${fmt(d.perusahaan.atLeast)} PERUSAHAAN DISELIDIKI`, lines: ["ADILI", "PEMBAKAR"] },
+      lupa:  { kicker: "TIAP TAHUN BEGINI", lines: ["JANGAN", "LUPA LAGI"] },
+    };
+  }
+
+  function caption() {
+    const d = DATA;
+    return [
+      "Ini bukan filter. Langit Palangka Raya memang oranye, dan warganya menghirup asap ini sejak akhir Juli.",
+      `ISPU di sana sempat tembus ${fmt(d.ispu.peak)}. Batas berbahayanya ${fmt(d.ispu.danger)}. Per ${d.balitaIspa.asOf}, lebih dari ${fmt(d.balitaIspa.atLeast)} balita di daerah terdampak kena ISPA.`,
+      `Tiap tahun kita ganti foto profil, lalu lupa sampai musim asap berikutnya. Tahun ini jangan. Kawal lebih dari ${fmt(d.perusahaan.atLeast)} perusahaan yang sedang diselidiki sampai ada yang diadili.`,
+      "#LawanKarhutla",
+    ].join("\n\n");
+  }
+
+  function applyData() {
+    const d = DATA;
+    const values = {
+      ispuPeak: fmt(d.ispu.peak),
+      ispuDanger: fmt(d.ispu.danger),
+      ispuChip: `ISPU ${fmt(d.ispu.peak)}`,
+      balitaAtLeast: `${fmt(d.balitaIspa.atLeast)}+`,
+      balitaAsOf: d.balitaIspa.asOf,
+      perusahaanAtLeast: `${fmt(d.perusahaan.atLeast)}+`,
+      updatedLabel: d.updatedLabel,
+    };
+    document.querySelectorAll("[data-bind]").forEach(el => {
+      if (el.dataset.bind in values) el.textContent = values[el.dataset.bind];
+    });
+    schedule();
+  }
+
+  fetch("/data.json", { cache: "no-cache" })
+    .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+    .then(json => { DATA = json; applyData(); })
+    .catch(() => {});
 
   // Width of the circular crop at a given baseline, so text survives round avatars.
   function chordAt(size, y, margin) {
@@ -533,7 +578,7 @@
     ctx.clearRect(0, 0, size, size);
     ctx.drawImage(img, (size - w) / 2 + x * size, (size - h) / 2 + y * size, w, h);
     applyFilter(ctx, size, strength.value / 100, MODES[modeInput().value]);
-    const msg = MESSAGES[messageInput().value];
+    const msg = messages()[messageInput().value];
     if (msg) drawBadge(ctx, size, msg);
   }
 
@@ -603,16 +648,10 @@
   preview.addEventListener("pointerup", end);
   preview.addEventListener("pointercancel", end);
 
-  const CAPTION = [
-    "Ini bukan filter. Langit Palangka Raya memang oranye, dan warganya menghirup asap ini sejak akhir Juli.",
-    "ISPU di sana sempat tembus 1.294. Batas berbahayanya 300. Per 11 Oktober, 62.400 balita di daerah terdampak kena ISPA.",
-    "Tiap tahun kita ganti foto profil, lalu lupa sampai musim asap berikutnya. Tahun ini jangan. Kawal 95 perusahaan yang sedang diselidiki sampai ada yang diadili.",
-    "#LawanKarhutla",
-  ].join("\n\n");
   const copyBtn = document.getElementById("copyCaption");
   copyBtn.addEventListener("click", async () => {
     try {
-      await navigator.clipboard.writeText(CAPTION);
+      await navigator.clipboard.writeText(caption());
       copyBtn.textContent = "Caption tersalin";
     } catch {
       copyBtn.textContent = "Gagal menyalin. Izinkan akses clipboard lalu coba lagi.";

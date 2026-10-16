@@ -8,9 +8,9 @@ Filternya meniru warna langit Palangka Raya, Kalimantan Tengah, saat tertutup as
 
 ## Kenapa situs ini dibuat
 
-Asap karhutla sudah menyelimuti Palangka Raya sejak akhir Juli 2026. Pertengahan Oktober, ISPU kota itu sempat tercatat 1.294, padahal kategori berbahaya dimulai di angka 300. Per 11 Oktober, Kementerian Kesehatan mencatat 62.400 balita kena ISPA di daerah terdampak. Asapnya juga sampai ke Malaysia, Singapura, Brunei, dan Timor-Leste. Di Johor dan Timor-Leste, sekolah sampai diliburkan.
+Asap karhutla sudah menyelimuti Palangka Raya sejak akhir Juli 2026. Pertengahan Oktober, ISPU kota itu sempat tercatat 1.294, padahal kategori berbahaya dimulai di angka 300. Per 11 Oktober, Kementerian Kesehatan mencatat lebih dari 62.000 balita kena ISPA di daerah terdampak. Asapnya juga sampai ke Malaysia, Singapura, Brunei, dan Timor-Leste. Di Johor dan Timor-Leste, sekolah sampai diliburkan.
 
-Ganti foto profil saja tidak memadamkan api. Kami membuat situs ini supaya orang yang jauh dari asap ikut melihat warnanya, membaca angkanya, lalu ikut mengawal penyelidikan terhadap 95 perusahaan yang sedang diperiksa polisi.
+Ganti foto profil saja tidak memadamkan api. Kami membuat situs ini supaya orang yang jauh dari asap ikut melihat warnanya, membaca angkanya, lalu ikut mengawal penyelidikan terhadap lebih dari 90 perusahaan yang sedang diperiksa polisi.
 
 ## Cara pakai
 
@@ -25,12 +25,12 @@ Ada lima pesan kampanye yang bisa dipasang di foto, atau pilih "Tanpa teks" kala
 | Pilihan | Baris kecil | Tulisan besar |
 |---|---|---|
 | Lawan Karhutla | INI BUKAN FILTER | LAWAN KARHUTLA |
-| Mau bernapas | 62.400 BALITA KENA ISPA | KAMI MAU BERNAPAS |
-| ISPU 1.294 | BATAS BAHAYANYA 300 | ISPU 1.294 |
-| Adili pembakar | 95 PERUSAHAAN SEDANG DISELIDIKI | ADILI PEMBAKAR |
+| Mau bernapas | LEBIH DARI 62.000 BALITA KENA ISPA | KAMI MAU BERNAPAS |
+| ISPU 1.294 | BAHAYA MULAI DI 300 | ISPU SEMPAT 1.294 |
+| Adili pembakar | LEBIH DARI 90 PERUSAHAAN DISELIDIKI | ADILI PEMBAKAR |
 | Jangan lupa | TIAP TAHUN BEGINI | JANGAN LUPA LAGI |
 
-Semua pesan ditutup #LawanKarhutla. Ukuran hurufnya menyesuaikan lebar lingkaran, jadi tulisan tidak terpotong saat platform memotong foto profil jadi bulat. Teks pesan ada di objek `MESSAGES` di `index.html`.
+Semua pesan ditutup #LawanKarhutla. Ukuran hurufnya menyesuaikan lebar lingkaran, jadi tulisan tidak terpotong saat platform memotong foto profil jadi bulat. Teks pesan ada di fungsi `messages()` di `index.html`, dan angkanya diambil dari `data.json`.
 
 ## Gaya filter
 
@@ -57,9 +57,31 @@ python -m http.server 8000 --directory public
 
 Lalu buka http://localhost:8000. Membuka `public/index.html` langsung dari file juga bisa.
 
+## Memperbarui angka
+
+Semua angka di halaman, di teks foto profil, dan di caption yang disalin diambil dari satu file: `public/data.json`.
+
+```json
+{
+  "updatedLabel": "pertengahan Oktober 2026",
+  "ispu": { "peak": 1294, "danger": 300 },
+  "balitaIspa": { "atLeast": 62000, "asOf": "11 Oktober" },
+  "perusahaan": { "atLeast": 90 }
+}
+```
+
+Kalimatnya sengaja dibuat tetap benar walaupun angkanya bertambah:
+
+- `ispu.peak` ditampilkan sebagai "sempat tembus". ISPU naik-turun tiap jam, jadi yang dicatat adalah puncaknya. Ganti hanya kalau ada rekor baru yang lebih tinggi.
+- `balitaIspa.atLeast` dan `perusahaan.atLeast` ditampilkan sebagai "lebih dari" atau "62.000+". Bulatkan ke bawah dari angka resmi terbaru, supaya klaimnya tidak pernah lebih besar dari data.
+
+Setiap kali angka diganti, perbarui juga `updatedLabel`, dan tambahkan sumbernya di bagian Sumber data di bawah. File ini bisa diedit langsung dari GitHub, termasuk dari HP.
+
+Ada tiga tempat yang tidak ikut otomatis karena isinya statis: meta description dan teks Open Graph di `<head>` `index.html`, tulisan di `og.jpg`, serta tabel pesan di README ini. Ganti manual kalau angka ISPU puncaknya berubah.
+
 ## Deploy
 
-Situs ini di-host di Cloudflare Pages. Untuk deploy ulang:
+Situs ini di-host di Cloudflare Pages. Kalau repo ini sudah tersambung ke project `lawankarhutla` di dashboard Cloudflare Pages (build command kosong, output directory `public`), setiap push ke `main` langsung ter-deploy. Untuk deploy manual:
 
 ```bash
 npx wrangler pages deploy public --project-name lawankarhutla --branch main
@@ -72,6 +94,7 @@ Folder `public` juga bisa diunggah ke hosting statis lain seperti Netlify, Verce
 ```
 public/
   index.html             # seluruh situs: markup, gaya, logika filter, meta SEO
+  data.json              # semua angka yang tampil di situs, foto, dan caption
   og.jpg                 # gambar pratinjau saat link dibagikan (1200×630)
   favicon.svg
   apple-touch-icon.png
@@ -97,7 +120,7 @@ Setelah itu buka `tools/og-image.html` di browser dengan viewport 1200×630, amb
 
 ## Sumber data
 
-Angka di situs dan README ini diambil dari berita per pertengahan Oktober 2026. ISPU berubah tiap jam, jadi cek sumber terbaru sebelum mengutip.
+Angka di situs dan README ini diambil dari berita per pertengahan Oktober 2026. Angka ISPU di situs adalah puncak yang sempat tercatat, bukan angka saat ini. Untuk kondisi terkini, cek ISPUnet KLH.
 
 - [ANTARA Kalteng: kabut asap masih menyelimuti Palangka Raya](https://kalteng.antaranews.com/berita/845510/kabut-asap-dampak-karhutla-masih-menyelimuti-palangka-raya)
 - [detikHealth: 62 ribu balita alami ISPA di wilayah terdampak karhutla](https://health.detik.com/berita-detikhealth/d-8709190/62-ribu-balita-alami-ispa-di-wilayah-terdampak-karhutla)

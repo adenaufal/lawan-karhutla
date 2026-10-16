@@ -1,0 +1,18 @@
+{
+  "updatedLabel": "pertengahan Oktober 2026",
+  "ispu": {
+    "peak": 1294,
+    "danger": 300,
+    "place": "Palangka Raya",
+    "source": "https://kalteng.antaranews.com/berita/845510/kabut-asap-dampak-karhutla-masih-menyelimuti-palangka-raya"
+  },
+  "balitaIspa": {
+    "atLeast": 62000,
+    "asOf": "11 Oktober",
+    "source": "https://health.detik.com/berita-detikhealth/d-8709190/62-ribu-balita-alami-ispa-di-wilayah-terdampak-karhutla"
+  },
+  "perusahaan": {
+    "atLeast": 90,
+    "source": "https://en.wikipedia.org/wiki/2026_Southeast_Asian_haze"
+  }
+}

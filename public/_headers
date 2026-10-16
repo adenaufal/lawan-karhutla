@@ -4,3 +4,6 @@
   Cache-Control: public, max-age=604800
 /apple-touch-icon.png
   Cache-Control: public, max-age=604800
+
+/data.json
+  Cache-Control: public, max-age=300
